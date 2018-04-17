@@ -16,3 +16,7 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::middleware('api')->prefix('auth')->post('/token', 'Api\ApiController@token');
+Route::middleware('api')->get('/test', 'Api\ApiController@test');
+Route::middleware('api')->post('/test', 'Api\ApiController@test');
