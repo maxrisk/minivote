@@ -15,9 +15,9 @@ class CreateVoteOptionTable extends Migration
     {
         Schema::create('vote_option', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('user_id')->index();
-            $table->unsignedInteger('vote_id')->index();
-            $table->unsignedInteger('option_id')->index();
+            $table->unsignedInteger('user_id')->index()->unsigned();
+            $table->unsignedInteger('vote_id')->index()->unsigned();
+            $table->unsignedInteger('option_id')->index()->unsigned();
             $table->timestamps();
         });
     }

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\User;
+use App\Models\User;
 use App\WXCrypt\WXBizDataCrypt;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
@@ -29,10 +29,10 @@ class ApiController extends Controller
 
         // 1. code2session
         $res = $this->code2session($code);
-//        $res = [
-//            'session_key' => "2JAuuT1DLPtOMTKsQQbHzw==",
-//            "openid" => "oA1g95ZvRJ6qSpsXVDfEYTUej1f0"
-//        ];
+        $res = [
+            'session_key' => "2JAuuT1DLPtOMTKsQQbHzw==",
+            "openid" => "oA1g95ZvRJ6qSpsXVDfEYTUej1f0"
+        ];
         if (isset($res['errcode'])) {
             return json_encode($res);
         }
@@ -44,14 +44,8 @@ class ApiController extends Controller
 
         if ($errCode == 0) {
             if (isset($res['openid'])) {
-                // 检查数据库是否存在此 openid
-                $user = User::where('openid', $res['openid'])->first();
-                if (is_null($user)) {
-                    $user = $this->createUser(json_decode($data, true));
-                    $token = auth()->login($user);
-                } else {
-                    $token = auth()->login($user);
-                }
+                $user = $this->checkUser(json_decode($data, true));
+                $token = auth()->login($user);
 
                 return response()->json([
                     'access_token' => $token,
@@ -88,13 +82,30 @@ class ApiController extends Controller
         return json_decode($response->getBody()->getContents(), true);
     }
 
-    protected function respondWithToken($token)
+    /**
+     * 检查用户
+     *
+     * @param array $userInfo
+     * @return mixed
+     */
+    private function checkUser($userInfo)
     {
-        return response()->json([
-            'access_token' => $token,
-            'token_type' => 'bearer',
-            'expires_in' => auth()->factory()->getTTL() * 60
-        ]);
+        $user = User::where('openid', $userInfo['openId'])->first();
+
+        if (is_null($user)) {
+            $user = $this->createUser($userInfo);
+        } else {
+            $user->openid = $userInfo['openId'];
+            $user->nick_name = $userInfo['nickName'];
+            $user->avatar_url = $userInfo['avatarUrl'];
+            $user->gender = $userInfo['gender'];
+            $user->city = $userInfo['city'];
+            $user->province = $userInfo['province'];
+            $user->country = $userInfo['country'];
+            $user->language = $userInfo['language'];
+        }
+
+        return $user;
     }
 
     private function createUser($user)
@@ -109,10 +120,5 @@ class ApiController extends Controller
             'country' => $user['country'],
             'language' => $user['language'],
         ]);
-    }
-
-    public function test()
-    {
-        echo 'aaaaaa';
     }
 }
