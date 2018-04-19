@@ -11,4 +11,9 @@ class Option extends Model
     public function vote() {
         return $this->belongsTo(Vote::class);
     }
+
+    public function voteOption()
+    {
+        return $this->hasMany(VoteOption::class);
+    }
 }

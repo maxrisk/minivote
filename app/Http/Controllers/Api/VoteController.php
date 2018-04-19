@@ -3,7 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\StoreVoteRequest;
-use App\Http\Resources\Vote;
+use App\Http\Requests\UpdateVoteRequest;
+use App\Http\Resources\Vote as VoteResource;
 use App\Repositories\VoteRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -59,13 +60,13 @@ class VoteController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return Vote
+     * @return VoteResource
      */
     public function show($id)
     {
         $vote = $this->voteRepository->byId($id);
 
-        return new Vote($vote);
+        return new VoteResource($vote);
     }
 
     /**
@@ -82,13 +83,23 @@ class VoteController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  UpdateVoteRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateVoteRequest $request, $id)
     {
-        //
+        $updated = $this->voteRepository->update(
+            $id,
+            $request->only('title', 'content', 'is_private', 'is_active'),
+            $request->get('options')
+        );
+
+        if ($updated) {
+            return response()->json(['code' => 200, 'message' => '更新成功']);
+        }
+
+        return response()->json(['code' => 400, 'message' => '更新失败']);
     }
 
     /**

@@ -47,4 +47,24 @@ class User extends Authenticatable implements JWTSubject
     {
         return [];
     }
+
+    public function voteOption()
+    {
+        return $this->belongsToMany(VoteOption::class, 'vote_option', 'user_id', 'option_id')->withTimestamps();
+    }
+
+    public function votes()
+    {
+        return $this->hasMany(VoteOption::class);
+    }
+
+    public function voteFor($option, $voteId)
+    {
+        return $this->voteOption()->attach($option, ['vote_id' => $voteId]);
+    }
+
+    public function hadVoteFor($voteId)
+    {
+        return $this->votes()->where('vote_id', $voteId)->first();
+    }
 }

@@ -19,3 +19,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::middleware('api')->prefix('auth')->post('/token', 'Api\ApiController@token');
 Route::middleware('api')->resource('/votes', 'Api\VoteController');
+Route::middleware('api')->post('/options/{option}/vote', 'Api\OptionController@vote');
