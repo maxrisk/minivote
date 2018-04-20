@@ -29,13 +29,11 @@ class ApiController extends Controller
 
         // 1. code2session
         $res = $this->code2session($code);
-        $res = [
-            'session_key' => "2JAuuT1DLPtOMTKsQQbHzw==",
-            "openid" => "oA1g95ZvRJ6qSpsXVDfEYTUej1f0"
-        ];
         if (isset($res['errcode'])) {
             return json_encode($res);
         }
+
+        $user = User::where('openid', $res['openid'])->first();
 
         // 2. 解密获取用户数据
         $sessionKey = $res['session_key'];
@@ -44,18 +42,27 @@ class ApiController extends Controller
 
         if ($errCode == 0) {
             if (isset($res['openid'])) {
-                $user = $this->checkUser(json_decode($data, true));
+                $user = $this->findUserOrCreate(json_decode($data, true));
                 $token = auth()->login($user);
 
-                return response()->json([
-                    'access_token' => $token,
-                    'token_type' => 'bearer',
-                    'expires_in' => auth()->factory()->getTTL() * 60
-                ]);
+                return $this->responseWithToken($token);
             }
+        } elseif ($user != null) {   // 解决 errCode = 41003 的问题
+            $token = auth()->login($user);
+
+            return $this->responseWithToken($token);
         }
 
         return response()->json(['errCode' => $errCode]);
+    }
+
+    public function responseWithToken($token)
+    {
+        return response()->json([
+            'access_token' => $token,
+            'token_type' => 'bearer',
+            'expires_in' => auth()->factory()->getTTL() * 60
+        ]);
     }
 
     /**
@@ -83,12 +90,12 @@ class ApiController extends Controller
     }
 
     /**
-     * 检查用户
+     * 检查用户是否存在，不存在则创建之
      *
      * @param array $userInfo
      * @return mixed
      */
-    private function checkUser($userInfo)
+    private function findUserOrCreate($userInfo)
     {
         $user = User::where('openid', $userInfo['openId'])->first();
 
