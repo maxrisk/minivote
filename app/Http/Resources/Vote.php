@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\Resource;
 
 class Vote extends Resource
@@ -14,6 +15,11 @@ class Vote extends Resource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        Carbon::setLocale('zh');
+
+        return [
+            'data' => parent::toArray($request),
+            'time_for_humans' => Carbon::parse($this->created_at)->diffForHumans()
+        ];
     }
 }

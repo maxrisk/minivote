@@ -2,9 +2,9 @@
 
 namespace App\Repositories;
 
+use App\Http\Resources\VoteCollection;
 use App\Models\Option;
 use App\Models\Vote;
-use Illuminate\Http\Request;
 
 /**
  * Class VoteRepository
@@ -19,12 +19,12 @@ class VoteRepository
             'user_id' => auth()->user()->id,
             'title' => $attributes['title'],
             'content' => $attributes['content'],
-            'is_private' => $attributes['is_private']
+            'is_private' => $attributes['is_private'] ?? 'F'
         ]);
 
-        $added = $vote->options()->createMany($attributes['options']);
+        $vote->options()->createMany($attributes['options']);
 
-        return !! $added;
+        return $vote->with('options')->first();
     }
 
     public function byId($id)
@@ -45,5 +45,10 @@ class VoteRepository
         }
 
         return $updated;
+    }
+
+    public function pagination()
+    {
+        return new VoteCollection(Vote::paginate(10));
     }
 }

@@ -6,7 +6,6 @@ use App\Http\Requests\StoreVoteRequest;
 use App\Http\Requests\UpdateVoteRequest;
 use App\Http\Resources\Vote as VoteResource;
 use App\Repositories\VoteRepository;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class VoteController extends Controller
@@ -26,7 +25,7 @@ class VoteController extends Controller
      */
     public function index()
     {
-        //
+        return $this->voteRepository->pagination();
     }
 
     /**
@@ -42,18 +41,14 @@ class VoteController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  StoreVoteRequest $request
+     * @return VoteResource
      */
     public function store(StoreVoteRequest $request)
     {
         $created = $this->voteRepository->create($request->all());
 
-        if ($created) {
-            return response()->json(['created' => true]);
-        }
-
-        return response()->json(['created' => false]);
+        return new VoteResource($created);
     }
 
     /**

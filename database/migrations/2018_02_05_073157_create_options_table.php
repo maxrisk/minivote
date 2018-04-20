@@ -17,7 +17,7 @@ class CreateOptionsTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('vote_id');
             $table->string('title');
-            $table->string('image_url');
+            $table->string('image_url')->default('');
             $table->integer('vote_count')->default(0);
             $table->timestamps();
         });

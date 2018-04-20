@@ -30,9 +30,11 @@ class OptionController extends Controller
 
         if ($hadVotedOption != null) {
             VoteOption::where('id', $hadVotedOption->id)->delete();
+            Option::find($hadVotedOption->option_id)->decrement('vote_count');
         }
 
         $user->voteFor($optionId, $option->vote_id);
+        $option->increment('vote_count');
 
         return response()->json(['code' => 200, 'message' => '成功投票']);
     }
