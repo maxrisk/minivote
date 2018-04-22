@@ -5,11 +5,15 @@ namespace App\Http\Controllers\Api;
 use App\Http\Requests\StoreVoteRequest;
 use App\Http\Requests\UpdateVoteRequest;
 use App\Http\Resources\Vote as VoteResource;
+use App\Http\Resources\VoteCollection;
 use App\Repositories\VoteRepository;
 use App\Http\Controllers\Controller;
 
 class VoteController extends Controller
 {
+    /**
+     * @var VoteRepository
+     */
     protected $voteRepository;
 
     public function __construct(VoteRepository $repository)
@@ -21,11 +25,13 @@ class VoteController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return mixed
      */
     public function index()
     {
-        return $this->voteRepository->pagination();
+        $votes = $this->voteRepository->pagination();
+
+        return new VoteCollection($votes);
     }
 
     /**

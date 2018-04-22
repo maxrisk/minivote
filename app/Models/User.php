@@ -53,18 +53,45 @@ class User extends Authenticatable implements JWTSubject
         return $this->belongsToMany(VoteOption::class, 'vote_option', 'user_id', 'option_id')->withTimestamps();
     }
 
-    public function votes()
+    public function voteOptions()
     {
         return $this->hasMany(VoteOption::class);
     }
 
+    public function votes()
+    {
+        return $this->hasMany(Vote::class);
+    }
+
+    /**
+     * 给某个选项投票
+     *
+     * @param string $option 选项ID
+     * @param string $voteId 投票的ID
+     */
     public function voteFor($option, $voteId)
     {
         return $this->voteOption()->attach($option, ['vote_id' => $voteId]);
     }
 
+    /**
+     * 查询当前用户是否为某用户投票
+     *
+     * @param $voteId
+     * @return \Illuminate\Database\Eloquent\Model|null|object|static
+     */
     public function hadVoteFor($voteId)
     {
-        return $this->votes()->where('vote_id', $voteId)->first();
+        return $this->voteOptions()->where('vote_id', $voteId)->first();
+    }
+
+    /**
+     * 获取当前用户所有投票
+     *
+     * @return mixed
+     */
+    public function allVotes()
+    {
+        return $this->votes()->active()->notPrivate()->paginate(10);
     }
 }
