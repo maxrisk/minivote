@@ -30,7 +30,8 @@ class ImageController extends Controller
 
             return response()->json([
                 'message' => '上传成功',
-                'path' => $path
+                'path' => $path,
+                'host' => url('/')
             ]);
         }
 
