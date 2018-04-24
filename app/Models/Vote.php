@@ -13,6 +13,11 @@ class Vote extends Model
         return $this->hasMany(Option::class);
     }
 
+    public function voteOption()
+    {
+        return $this->hasMany(VoteOption::class);
+    }
+
     /**
      * 限制查询只包括受激活状态的投票。
      *
@@ -31,5 +36,28 @@ class Vote extends Model
     public function scopeNotPrivate($query)
     {
         return $query->where('is_private', 'F');
+    }
+
+    /**
+     * 查询所有投票结果
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function result()
+    {
+        return $this->options()->select('id', 'title', 'vote_count')->get();
+    }
+
+    /**
+     * 获取参与投票总数
+     */
+    public function participantsCount()
+    {
+        return $this->voteOption()->count();
+    }
+
+    public function getVoteOptions()
+    {
+        return $this->voteOption()->get();
     }
 }

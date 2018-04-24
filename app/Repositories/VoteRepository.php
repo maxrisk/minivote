@@ -75,4 +75,9 @@ class VoteRepository
     {
         return Vote::active()->notPrivate()->paginate(10);
     }
+
+    public function getVoteOptionsBy($vote)
+    {
+        return Vote::with('options')->active()->select('id', 'user_id', 'title')->find($vote);
+    }
 }

@@ -17,6 +17,15 @@ class Vote extends Resource
     {
         Carbon::setLocale('zh');
 
+        if (auth()->user()->hadVoteFor($this->id) != null) {
+            return [
+                'data' => parent::toArray($request),
+                'result' => Vote::result(),
+                'count' => Vote::participantsCount(),
+                'time_for_humans' => Carbon::parse($this->created_at)->diffForHumans()
+            ];
+        }
+
         return [
             'data' => parent::toArray($request),
             'time_for_humans' => Carbon::parse($this->created_at)->diffForHumans()

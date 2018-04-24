@@ -16,4 +16,14 @@ class Option extends Model
     {
         return $this->hasMany(VoteOption::class);
     }
+
+    /**
+     * 获取此选项的所有投票者
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getVoters()
+    {
+        return $this->voteOption()->get();
+    }
 }

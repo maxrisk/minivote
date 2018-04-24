@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\OptionCollection;
 use App\Models\Option;
+use App\Models\Vote;
 use App\Models\VoteOption;
 
 class OptionController extends Controller
@@ -19,13 +21,13 @@ class OptionController extends Controller
 
         $option = Option::find($optionId);
         if (!$option) {
-            return response()->json(['code' => 400, 'message' => '投票不存在']);
+            return response()->json(['message' => '投票不存在']);
         }
 
         $hadVotedOption = $user->hadVoteFor($option->vote_id);
 
         if ($hadVotedOption && $hadVotedOption->option_id == $optionId) {
-            return response()->json(['code' => 200, 'message' => '成功投票']);
+            return new OptionCollection(Vote::find($option->vote_id)->result());
         }
 
         if ($hadVotedOption != null) {
@@ -36,6 +38,6 @@ class OptionController extends Controller
         $user->voteFor($optionId, $option->vote_id);
         $option->increment('vote_count');
 
-        return response()->json(['code' => 200, 'message' => '成功投票']);
+        return new OptionCollection(Vote::find($option->vote_id)->result());
     }
 }

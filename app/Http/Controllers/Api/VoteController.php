@@ -6,6 +6,7 @@ use App\Http\Requests\StoreVoteRequest;
 use App\Http\Requests\UpdateVoteRequest;
 use App\Http\Resources\Vote as VoteResource;
 use App\Http\Resources\VoteCollection;
+use App\Http\Resources\VoterResource;
 use App\Repositories\VoteRepository;
 use App\Http\Controllers\Controller;
 
@@ -112,5 +113,12 @@ class VoteController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function getVoters($vote)
+    {
+        $voters = $this->voteRepository->getVoteOptionsBy($vote);
+
+        return new VoterResource($voters);
     }
 }

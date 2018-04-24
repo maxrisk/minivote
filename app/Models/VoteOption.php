@@ -12,4 +12,9 @@ class VoteOption extends Model
     {
         return $this->belongsTo(Option::class);
     }
+
+    public function user()
+    {
+        return User::find($this->user_id);
+    }
 }
