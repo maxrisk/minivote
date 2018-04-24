@@ -9,6 +9,7 @@ use App\Http\Resources\VoteCollection;
 use App\Http\Resources\VoterResource;
 use App\Repositories\VoteRepository;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 
 class VoteController extends Controller
 {
@@ -28,8 +29,9 @@ class VoteController extends Controller
      *
      * @return mixed
      */
-    public function index()
+    public function index(Request $request)
     {
+        $order = $request->get('order');
         $votes = $this->voteRepository->pagination();
 
         return new VoteCollection($votes);
