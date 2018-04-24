@@ -21,7 +21,6 @@ class Vote extends Resource
             return [
                 'data' => parent::toArray($request),
                 'result' => Vote::result(),
-                'count' => Vote::participantsCount(),
                 'time_for_humans' => Carbon::parse($this->created_at)->diffForHumans()
             ];
         }

@@ -48,14 +48,6 @@ class Vote extends Model
         return $this->options()->select('id', 'title', 'vote_count')->get();
     }
 
-    /**
-     * 获取参与投票总数
-     */
-    public function participantsCount()
-    {
-        return $this->voteOption()->count();
-    }
-
     public function getVoteOptions()
     {
         return $this->voteOption()->get();

@@ -20,6 +20,7 @@ class OptionController extends Controller
         $user = auth()->user();
 
         $option = Option::find($optionId);
+        $vote = Vote::find($option->vote_id);
         if (!$option) {
             return response()->json(['message' => '投票不存在']);
         }
@@ -33,9 +34,11 @@ class OptionController extends Controller
         if ($hadVotedOption != null) {
             VoteOption::where('id', $hadVotedOption->id)->delete();
             Option::find($hadVotedOption->option_id)->decrement('vote_count');
+            $vote->decrement('voters_count');
         }
 
         $user->voteFor($optionId, $option->vote_id);
+        $vote->increment('voters_count');
         $option->increment('vote_count');
 
         return new OptionCollection(Vote::find($option->vote_id)->result());

@@ -69,11 +69,25 @@ class VoteRepository
     /**
      * 查询用户发起的投票列表
      *
+     * @param int $size 每页显示条数
+     * @param string $filter
      * @return mixed
      */
-    public function pagination()
+    public function pagination($size, $filter = 'all')
     {
-        return Vote::with('options', 'user')->active()->notPrivate()->orderBy('id', 'desc')->paginate(10);
+        $size = $size ?: 10;
+        if ($filter == 'popular') {
+            return Vote::with('options', 'user')->active()->notPrivate()->orderByDesc('voters_count')->orderByDesc('created_at')->limit(50)->paginate($size);
+        }
+
+        return Vote::with('options', 'user')
+            ->when($filter == 'all', function ($query) {
+                return $query->active()->notPrivate();
+            })
+            ->when($filter == 'mine', function ($query) {
+                return $query->where('user_id', auth()->user()->id);
+            })
+            ->orderBy('created_at', 'desc')->paginate($size);
     }
 
     public function getVoteOptionsBy($vote)
