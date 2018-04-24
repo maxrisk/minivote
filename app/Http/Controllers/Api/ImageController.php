@@ -15,15 +15,25 @@ class ImageController extends Controller
      */
     public function store(Request $request)
     {
-        $path = $request->file('image')->store('public/images/' . date('Ymd'));
-
-        if (!$path) {
-            return response()->json(['message' => '上传失败']);
+        $image = $request->file('image');
+        if (! in_array(strtolower($image->getClientOriginalExtension()),
+            ['jpg', 'jpeg', 'png'])) {
+            return response()->json(['message' => '文件格式不支持']);
         }
 
-        return response()->json([
-            'message' => '上传成功',
-            'path' => $path
-        ]);
+        if ($image->isValid()) {
+            $path = $request->file('image')->store('public/images/' . date('Ymd'));
+
+            if (!$path) {
+                return response()->json(['message' => '上传失败']);
+            }
+
+            return response()->json([
+                'message' => '上传成功',
+                'path' => $path
+            ]);
+        }
+
+        return response()->json(['message' => '上传失败']);
     }
 }
