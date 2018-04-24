@@ -60,4 +60,10 @@ class Vote extends Model
     {
         return $this->voteOption()->get();
     }
+
+    public function user()
+    {
+        return $this->hasOne(User::class, 'id', 'user_id')
+                    ->select('id', 'avatar_url', 'nick_name');
+    }
 }

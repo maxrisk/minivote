@@ -73,7 +73,7 @@ class VoteRepository
      */
     public function pagination()
     {
-        return Vote::active()->notPrivate()->paginate(10);
+        return Vote::with('options', 'user')->active()->notPrivate()->orderBy('id', 'desc')->paginate(10);
     }
 
     public function getVoteOptionsBy($vote)
