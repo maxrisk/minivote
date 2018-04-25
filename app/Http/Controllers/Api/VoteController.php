@@ -103,10 +103,10 @@ class VoteController extends Controller
         );
 
         if ($updated) {
-            return response()->json(['code' => 200, 'message' => '更新成功']);
+            return response()->json(['message' => '更新成功']);
         }
 
-        return response()->json(['code' => 400, 'message' => '更新失败']);
+        return response()->json(['message' => '更新失败'], 400);
     }
 
     /**
