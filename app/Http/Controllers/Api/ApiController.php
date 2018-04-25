@@ -29,10 +29,10 @@ class ApiController extends Controller
 
         // 1. code2session
         $res = $this->code2session($code);
-        $res = [
-            'session_key' => "2JAuuT1DLPtOMTKsQQbHzw==",
-            "openid" => "oA1g95ZvRJ6qSpsXVDfEYTUej1f0"
-        ];
+//        $res = [
+//            'session_key' => "2JAuuT1DLPtOMTKsQQbHzw==",
+//            "openid" => "oA1g95ZvRJ6qSpsXVDfEYTUej1f0"
+//        ];
         if (isset($res['errcode'])) {
             return json_encode($res);
         }
