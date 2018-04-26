@@ -14,8 +14,8 @@ class VoterResource extends Resource
      */
     public function toArray($request)
     {
-        $voters = [];
         foreach ($this->options as $option) {
+            $voters = [];
             foreach ($option->getVoters() as $voter) {
                 $voters[] = $voter->user()->avatar_url;
             }
