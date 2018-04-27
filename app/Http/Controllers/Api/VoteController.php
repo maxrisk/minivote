@@ -117,9 +117,21 @@ class VoteController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $deleted = auth()->user()->deleteVote($id);
+
+        if (!$deleted) {
+            return response()->json(['message' => '删除失败'], 400);
+        }
+
+        return response()->json(['message' => '删除成功']);
     }
 
+    /**
+     * 获取投票者列表
+     *
+     * @param $vote
+     * @return VoterResource
+     */
     public function getVoters($vote)
     {
         $voters = $this->voteRepository->getVoteOptionsBy($vote);

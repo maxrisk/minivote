@@ -8,6 +8,18 @@ class Vote extends Model
 {
     protected $fillable = ['user_id', 'title', 'content', 'is_private', 'is_active'];
 
+    /**
+     * 监听删除事件
+     */
+    protected static function boot() {
+        parent::boot();
+
+        static::deleting(function($vote) {
+            $vote->options()->delete();
+            $vote->voteOption()->delete();
+        });
+    }
+
     public function options()
     {
         return $this->hasMany(Option::class);

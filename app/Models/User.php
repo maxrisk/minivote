@@ -94,4 +94,16 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->votes()->active()->notPrivate()->paginate(10);
     }
+
+
+    /**
+     * 按 ID 删除用户发起的投票
+     *
+     * @param $id
+     * @return bool|mixed|null
+     */
+    public function deleteVote($id)
+    {
+        return $this->votes()->where('id', $id)->first()->delete();
+    }
 }
