@@ -1,9 +1,9 @@
 <?php
 
 return [
-    'appid' => 'wxfd1e4903626c463e',
+    'appid' => env('WX_APPID', 'appid'),
 
-    'secret' => '39f0585a549aaddc382dcffdee47f15a',
+    'secret' => env('WX_SECRET', 'secret'),
 
     'grant_type' => 'authorization_code',
 
