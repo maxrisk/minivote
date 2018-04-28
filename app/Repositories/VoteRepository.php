@@ -28,6 +28,9 @@ class VoteRepository
         ]);
 
         $vote->options()->createMany($attributes['options']);
+        if (isset($attributes['images'])) {
+            $vote->images()->createMany($attributes['images']);
+        }
 
         return $vote->with('options')->find($vote->id);
     }
