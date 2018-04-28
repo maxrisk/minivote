@@ -20,7 +20,7 @@ class VoteController extends Controller
 
     public function __construct(VoteRepository $repository)
     {
-        $this->middleware('jwt.auth');
+        $this->middleware(['token.refresh']);
         $this->voteRepository = $repository;
     }
 

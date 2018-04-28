@@ -12,7 +12,7 @@ class OptionController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('jwt.auth');
+        $this->middleware('token.refresh');
     }
 
     public function vote($optionId)
