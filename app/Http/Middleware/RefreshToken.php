@@ -37,13 +37,16 @@ class RefreshToken extends BaseMiddleware
                 // 尝试刷新 token
                 $token = JWTAuth::refresh($token);
                 JWTAuth::setToken($token);
+                $request->user = JWTAuth::authenticate($token);
+
+                // 在头部返回新的 token
+                return $this->setAuthenticationHeader($next($request), $token);
             } catch (TokenExpiredException $e) {
                 // Return 401 status
                 abort(401, 'Token Expired');
             }
         }
 
-        // 在头部返回新的 token
-        return $this->setAuthenticationHeader($next($request), $token);
+        return $next($request);
     }
 }
