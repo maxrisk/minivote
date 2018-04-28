@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Model\Image;
 use Illuminate\Database\Eloquent\Model;
 
 class Vote extends Model
@@ -28,6 +29,17 @@ class Vote extends Model
     public function voteOption()
     {
         return $this->hasMany(VoteOption::class);
+    }
+
+    public function user()
+    {
+        return $this->hasOne(User::class, 'id', 'user_id')
+            ->select('id', 'avatar_url', 'nick_name');
+    }
+
+    public function images()
+    {
+        return $this->hasMany(Image::class);
     }
 
     /**
@@ -63,11 +75,5 @@ class Vote extends Model
     public function getVoteOptions()
     {
         return $this->voteOption()->get();
-    }
-
-    public function user()
-    {
-        return $this->hasOne(User::class, 'id', 'user_id')
-                    ->select('id', 'avatar_url', 'nick_name');
     }
 }

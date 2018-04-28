@@ -7,6 +7,11 @@ use App\Http\Controllers\Controller;
 
 class ImageController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('token.refresh');
+    }
+
     /**
      * 保存图片
      *

@@ -40,7 +40,16 @@ class VoteRepository
      */
     public function byId($id)
     {
-        return Vote::with('options')->find($id);
+        return Vote::with([
+            'options' => function ($query)
+            {
+                $query->select('id', 'vote_id', 'title', 'vote_count');
+            },
+            'images' => function ($query)
+            {
+                $query->select('id', 'vote_id', 'path');
+            }
+        ])->find($id);
     }
 
     /**

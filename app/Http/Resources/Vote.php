@@ -18,6 +18,15 @@ class Vote extends Resource
         Carbon::setLocale('zh');
 
         if (auth()->user()->hadVoteFor($this->id) != null) {
+            // 获取投票者的头像
+            foreach ($this->options as $option) {
+                $avatars = [];
+                foreach ($option->getVoters() as $voter) {
+                    $avatars[] = $voter->user()->avatar_url;
+                }
+                $option->avatars = $avatars;
+            }
+
             return [
                 'data' => parent::toArray($request),
                 'result' => Vote::result(),
