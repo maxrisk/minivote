@@ -23,7 +23,7 @@ class VoteRepository
         $vote = Vote::create([
             'user_id' => auth()->user()->id,
             'title' => $attributes['title'],
-            'content' => $attributes['content'],
+            'content' => $attributes['content'] ?? '',
             'is_private' => $attributes['is_private'] ?? 'F'
         ]);
 

@@ -17,7 +17,7 @@ class CreateVotesTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('user_id')->index()->unsigned();
             $table->string('title');
-            $table->text('content');
+            $table->text('content')->nullable();
             $table->string('is_private', 8)->default('F');
             $table->string('is_active', 8)->default('T');
             $table->timestamps();
