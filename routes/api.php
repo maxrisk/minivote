@@ -23,3 +23,4 @@ Route::middleware('api')->resource('/votes', 'Api\VoteController');
 Route::middleware('api')->post('/options/{option}/vote', 'Api\OptionController@vote');
 Route::middleware('api')->get('/votes/{vote}/voters', 'Api\VoteController@getVoters');
 Route::middleware('api')->post('/images/store', 'Api\ImageController@store');
+Route::middleware('api')->delete('/images/{id}', 'Api\ImageController@destroy');

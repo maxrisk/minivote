@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\Image;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
 
 class ImageController extends Controller
 {
@@ -41,5 +43,26 @@ class ImageController extends Controller
         }
 
         return response()->json(['message' => '上传失败']);
+    }
+
+    /**
+     * 删除图片
+     *
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function destroy($id)
+    {
+        $image = Image::find($id);
+
+        Storage::delete('public' . $image->path);
+
+        $deleted = $image->delete();
+
+        if ($deleted) {
+            return response()->json(['message' => 'Deleted successfully']);
+        }
+
+        return response()->json(['message' => 'Delete failed']);
     }
 }
