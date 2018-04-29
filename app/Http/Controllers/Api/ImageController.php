@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\Image;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
@@ -48,21 +47,19 @@ class ImageController extends Controller
     /**
      * 删除图片
      *
-     * @param $id
+     * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        $image = Image::find($id);
+        $path = $request->get('path');
 
-        Storage::delete('public' . $image->path);
-
-        $deleted = $image->delete();
-
-        if ($deleted) {
-            return response()->json(['message' => 'Deleted successfully']);
+        if ($path == null) {
+            return response()->json(['message' => 'The path field is required.']);
         }
 
-        return response()->json(['message' => 'Delete failed']);
+        $path && Storage::delete('public' . $path);
+
+        return response()->json(['message' => 'Deleted successfully']);
     }
 }
