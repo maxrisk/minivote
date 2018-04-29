@@ -56,6 +56,22 @@ class ApiController extends Controller
         return response()->json(['errCode' => $errCode]);
     }
 
+    /**
+     * 获取当前用户信息
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function me()
+    {
+        return response()->json(auth()->user());
+    }
+
+    /**
+     * 返回 token
+     *
+     * @param $token
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function responseWithToken($token)
     {
         return response()->json([

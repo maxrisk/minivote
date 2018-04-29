@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Tymon\JWTAuth\Exceptions\TokenBlacklistedException;
 
 class Handler extends ExceptionHandler
@@ -51,6 +52,8 @@ class Handler extends ExceptionHandler
     {
         if ($exception instanceof TokenBlacklistedException) {
             return response()->json(['message' => $exception->getMessage()], 400);
+        } elseif ($exception instanceof UnauthorizedHttpException) {
+            return response()->json(['message' => $exception->getMessage()], 401);
         }
 
         return parent::render($request, $exception);
