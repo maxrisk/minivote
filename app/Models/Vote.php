@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Model\Image;
 use Illuminate\Database\Eloquent\Model;
 
 class Vote extends Model
@@ -72,6 +71,11 @@ class Vote extends Model
         return $this->options()->select('id', 'title', 'vote_count')->get();
     }
 
+    /**
+     * 查询当前投票的得票信息
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
     public function getVoteOptions()
     {
         return $this->voteOption()->get();
