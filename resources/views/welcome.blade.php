@@ -5,7 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Laravel</title>
+        <title>Minivote</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
@@ -47,6 +47,11 @@
 
             .title {
                 font-size: 84px;
+                color: #f35626;
+                background-image: -webkit-linear-gradient(92deg,#f35626,#feab3a);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                -webkit-animation: hue 30s infinite linear;
             }
 
             .links > a {
@@ -61,6 +66,16 @@
 
             .m-b-md {
                 margin-bottom: 30px;
+            }
+
+            @-webkit-keyframes hue {
+                from {
+                    -webkit-filter: hue-rotate(0deg);
+                }
+
+                to {
+                    -webkit-filter: hue-rotate(-360deg);
+                }
             }
         </style>
     </head>
@@ -79,15 +94,10 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Laravel
+                    Minivote
                 </div>
-
                 <div class="links">
-                    <a href="https://laravel.com/docs">Documentation</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
+                    小程序
                 </div>
             </div>
         </div>
