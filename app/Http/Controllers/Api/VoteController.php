@@ -32,7 +32,12 @@ class VoteController extends Controller
      */
     public function index(Request $request)
     {
-        $filter = $request->get('filter') ?: 'all';
+        $filters = ['all', 'popular', 'mine'];
+
+        $filter = in_array($request->get('filter'), $filters)
+            ? $request->get('filter')
+            : 'all';
+
         $size = $request->get('size') ?: 10;
 
         $votes = $this->voteRepository->pagination($size, $filter);

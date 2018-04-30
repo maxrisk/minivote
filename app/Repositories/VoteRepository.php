@@ -89,10 +89,14 @@ class VoteRepository
     {
         $size = $size ?: 10;
         if ($filter == 'popular') {
-            return Vote::with('options', 'user')->active()->notPrivate()->orderByDesc('voters_count')->orderByDesc('created_at')->limit(50)->paginate($size);
+            return Vote::with(['options', 'user', 'images' => function ($query) {
+                $query->select('id', 'vote_id', 'path');
+            }])->active()->notPrivate()->orderByDesc('voters_count')->orderByDesc('created_at')->limit(50)->paginate($size);
         }
 
-        return Vote::with('options', 'user')
+        return Vote::with(['options', 'user', 'images' => function ($query) {
+            $query->select('id', 'vote_id', 'path');
+        }])
             ->when($filter == 'all', function ($query) {
                 return $query->active()->notPrivate();
             })
