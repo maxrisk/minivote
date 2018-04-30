@@ -36,7 +36,7 @@ class ImageController extends Controller
 
             return response()->json([
                 'message' => '上传成功',
-                'path' => substr($path, '6'),
+                'path' => '/storage' . substr($path, '6'),
                 'host' => url('/')
             ]);
         }
@@ -58,7 +58,7 @@ class ImageController extends Controller
             return response()->json(['message' => 'The path field is required.']);
         }
 
-        $path && Storage::delete('public' . $path);
+        $path && Storage::delete('public' . substr($path, 8));
 
         return response()->json(['message' => 'Deleted successfully']);
     }
