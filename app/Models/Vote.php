@@ -17,6 +17,13 @@ class Vote extends Model
         static::deleting(function($vote) {
             $vote->options()->delete();
             $vote->voteOption()->delete();
+
+            // 删除图片
+            $images = $vote->images()->get();
+            foreach ($images as $image) {
+                $image->unlink();
+                $image->delete();
+            }
         });
     }
 

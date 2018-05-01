@@ -104,6 +104,12 @@ class User extends Authenticatable implements JWTSubject
      */
     public function deleteVote($id)
     {
-        return $this->votes()->where('id', $id)->first()->delete();
+        $vote = $this->votes()->where('id', $id)->first();
+
+        if (! $vote) {
+            return false;
+        }
+
+        return $vote->delete();
     }
 }
