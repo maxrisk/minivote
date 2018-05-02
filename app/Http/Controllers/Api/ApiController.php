@@ -12,7 +12,7 @@ class ApiController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('jwt.auth', ['except' => ['login', 'token']]);
+        $this->middleware('token.refresh', ['except' => ['token']]);
     }
 
     /**
