@@ -8,7 +8,7 @@
         <title>votingNow</title>
 
         <!-- Fonts -->
-        {{--<link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">--}}
+        <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 
         <!-- Styles -->
         <style>
@@ -81,20 +81,15 @@
     </head>
     <body>
         <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
-                <div class="top-right links">
-                    @auth
-                        <a href="{{ url('/home') }}">Home</a>
-                    @else
-                        <a href="{{ route('login') }}">Login</a>
-                        <a href="{{ route('register') }}">Register</a>
-                    @endauth
-                </div>
-            @endif
+            {{--<div class="top-right links">--}}
+                {{--<a href="{{ url('/') }}">Home</a>--}}
+                {{--<a href="{{ url('/') }}">Login</a>--}}
+                {{--<a href="{{ url('/') }}">Register</a>--}}
+            {{--</div>--}}
 
             <div class="content">
                 <div class="title m-b-md">
-                    votingNow
+                    Minivote
                 </div>
                 <div class="links">
                     小程序
@@ -102,4 +97,5 @@
             </div>
         </div>
     </body>
+    <script src="{{ asset('js/app.js') }}"></script>
 </html>
