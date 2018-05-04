@@ -20,10 +20,10 @@ class OptionController extends Controller
         $user = auth()->user();
 
         $option = Option::find($optionId);
-        $vote = Vote::find($option->vote_id);
         if (!$option) {
-            return response()->json(['message' => '投票不存在']);
+            return response()->json(['message' => '投票选项不存在']);
         }
+        $vote = Vote::find($option->vote_id);
 
         $hadVotedOption = $user->hadVoteFor($option->vote_id);
 
