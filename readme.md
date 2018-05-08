@@ -27,5 +27,5 @@ $ php artisan migrate
 
 ### 小程序二维码
 
-![qrcode](https://www.minivote.cn/storage/images/miniprogram.jpeg)
+![qrcode](https://www.minivote.cn/storage/images/miniprogram2.jpeg)
 
