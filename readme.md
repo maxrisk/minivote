@@ -25,4 +25,7 @@ $ php artisan migrate
 
 过期的 Token 可请求一次接口，正常返回数据，并在响应头信息返回新的 Token，同时旧的 Token 失效。可通过配置文件修改 Token 过期时间。
 
+### 小程序二维码
+
+![qrcode](https://www.minivote.cn/storage/images/miniprogram.jpeg)
 
