@@ -5,9 +5,9 @@
 ![PHP Version](https://img.shields.io/travis/php-v/symfony/symfony.svg)
 ![deploy](https://img.shields.io/badge/deploy-success-brightgreen.svg)
 
-### 文档
+### 接口文档
 
-更新中...
+[文档链接](https://github.com/maxrisk/minivote/wiki/%E6%8E%A5%E5%8F%A3%E8%AF%B4%E6%98%8E)
 
 ### 安装及快速开始
 
