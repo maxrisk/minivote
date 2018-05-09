@@ -8,7 +8,7 @@
         <title>votingNow</title>
 
         <!-- Fonts -->
-        <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+        {{--<link rel="stylesheet" href="{{ asset('css/app.css') }}">--}}
 
         <!-- Styles -->
         <style>
@@ -68,6 +68,10 @@
                 margin-bottom: 30px;
             }
 
+            .qrcode {
+                margin-top: 30px;
+            }
+
             @-webkit-keyframes hue {
                 from {
                     -webkit-filter: hue-rotate(0deg);
@@ -94,8 +98,9 @@
                 <div class="links">
                     小程序
                 </div>
+                <img width="300" class="qrcode" src="https://www.minivote.cn/storage/images/miniprogram2.jpeg" alt="">
             </div>
         </div>
     </body>
-    <script src="{{ asset('js/app.js') }}"></script>
+    {{--<script src="{{ asset('js/app.js') }}"></script>--}}
 </html>
