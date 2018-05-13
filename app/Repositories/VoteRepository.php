@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Option;
+use App\Models\Report;
 use App\Models\Vote;
 
 /**
@@ -109,5 +110,13 @@ class VoteRepository
     public function getVoteOptionsBy($vote)
     {
         return Vote::with('options')->active()->select('id', 'user_id', 'title')->find($vote);
+    }
+
+    public function report($vote, $message)
+    {
+        return Report::create([
+            'vote_id' => $vote,
+            'message' => $message
+        ]);
     }
 }

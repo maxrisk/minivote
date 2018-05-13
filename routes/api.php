@@ -13,14 +13,18 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::middleware('api')->namespace('Api')->group(function () {
 
-Route::middleware('api')->prefix('auth')->post('/token', 'Api\ApiController@token');
-Route::middleware('api')->get('/me', 'Api\ApiController@me');
-Route::middleware('api')->resource('/votes', 'Api\VoteController');
-Route::middleware('api')->post('/options/{option}/vote', 'Api\OptionController@vote');
-Route::middleware('api')->get('/votes/{vote}/voters', 'Api\VoteController@getVoters');
-Route::middleware('api')->post('/images/store', 'Api\ImageController@store');
-Route::middleware('api')->delete('/image', 'Api\ImageController@destroy');
+    Route::prefix('auth')->post('/token', 'ApiController@token');
+
+    Route::get('/me', 'ApiController@me');
+    Route::resource('/votes', 'VoteController', ['except' => [
+        'create', 'edit'
+    ]]);
+    Route::get('/votes/{vote}/voters', 'VoteController@getVoters');
+    Route::post('/votes/{vote}/report', 'VoteController@report');
+    Route::post('/options/{option}/vote', 'OptionController@vote');
+
+    Route::post('/images/store', 'ImageController@store');
+    Route::delete('/image', 'ImageController@destroy');
+});

@@ -48,6 +48,11 @@ class Vote extends Model
         return $this->hasMany(Image::class);
     }
 
+    public function reports()
+    {
+        return $this->hasMany(Report::class);
+    }
+
     /**
      * 限制查询只包括受激活状态的投票。
      *

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Requests\StoreReportRequest;
 use App\Http\Requests\StoreVoteRequest;
 use App\Http\Requests\UpdateVoteRequest;
 use App\Http\Resources\Vote as VoteResource;
@@ -46,16 +47,6 @@ class VoteController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  StoreVoteRequest $request
@@ -79,17 +70,6 @@ class VoteController extends Controller
         $vote = $this->voteRepository->byId($id);
 
         return new VoteResource($vote);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
     }
 
     /**
@@ -142,5 +122,25 @@ class VoteController extends Controller
         $voters = $this->voteRepository->getVoteOptionsBy($vote);
 
         return new VoterResource($voters);
+    }
+
+    /**
+     * 举报
+     *
+     * @param StoreReportRequest $request
+     * @param $vote
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function report(StoreReportRequest $request, $vote)
+    {
+        $message = $request->get('message');
+
+        $res = $this->voteRepository->report($vote, $message);
+
+        if (!$res) {
+            return response()->json(['message' => '举报失败'], 400);
+        }
+
+        return response()->json(['message' => '举报成功']);
     }
 }
