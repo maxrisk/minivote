@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\Sensitivity;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreVoteRequest extends FormRequest
@@ -24,7 +25,10 @@ class StoreVoteRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required|min:3'
+            'title' => ['required', 'min:3', new Sensitivity()],
+            'content' => [new Sensitivity()],
+            'options' => 'array',
+            'options.*.title' => [new Sensitivity()]
         ];
     }
 }
