@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class Report extends Model
 {
-    protected $fillable = ['vote_id', 'message'];
+    protected $fillable = ['vote_id', 'message', 'user_id'];
 }

@@ -112,11 +112,20 @@ class VoteRepository
         return Vote::with('options')->active()->select('id', 'user_id', 'title')->find($vote);
     }
 
-    public function report($vote, $message)
+    /**
+     * 举报投票
+     *
+     * @param string/int $user 举报人的 ID
+     * @param string/int $vote 投票 ID
+     * @param string $message 举报原因
+     * @return mixed
+     */
+    public function report($user, $vote, $message)
     {
         return Report::create([
             'vote_id' => $vote,
-            'message' => $message
+            'message' => $message,
+            'user_id' => $user
         ]);
     }
 }

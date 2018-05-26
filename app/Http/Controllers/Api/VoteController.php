@@ -135,7 +135,7 @@ class VoteController extends Controller
     {
         $message = $request->get('message');
 
-        $res = $this->voteRepository->report($vote, $message);
+        $res = $this->voteRepository->report($request->user()->id, $vote, $message);
 
         if (!$res) {
             return response()->json(['message' => '举报失败'], 400);
