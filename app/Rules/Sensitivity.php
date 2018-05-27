@@ -32,6 +32,10 @@ class Sensitivity implements Rule
 
     private function msgSecCheck($content)
     {
+        if (empty($content)) {
+            return true;
+        }
+
         $url = sprintf('%s?access_token=%s',
             config('wxapp.msg_sec_check'),
             (new AccessToken())->get()
